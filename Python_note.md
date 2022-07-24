@@ -8,7 +8,7 @@
 
 ### 1、变量与常量
 
-**变量：**在程序运行过程中会有一些中间值，在稍后的执行中会用到，这时可以将这些中间值赋值给变量，然后在后面的代码中通过调用这			些变量名来获取这些值。可以简单的理解为给这些值取一个别名，这个别名就代表这个值。
+**变量：**在程序运行过程中会有一些中间值，在稍后的执行中会用到，这时可以将这些中间值赋值给变量，然后在后面的代码中通过调用这些变量名来获取这些值。可以简单的理解为给这些值取一个别名，这个别名就代表这个值。
 
 **命名规则：**
 
@@ -23,7 +23,7 @@ b=3#同上
 c=a#a和c都是变量，该句意为将a的值赋给c，也就是令a=c
 ```
 
-**赋值运算符：**在 python 中 = 是赋值运算符，而不是数学意义上的等于号。python 解释器会先计算 = 右边的表达式，然后将结果复制给 = 						左边的变量。
+**赋值运算符：**在 python 中 = 是赋值运算符，而不是数学意义上的等于号。python 解释器会先计算 = 右边的表达式，然后将结果复制给=左边的变量。
 
 **查看变量类型**：type()
 
@@ -114,7 +114,9 @@ print(a.imag)#结果为4.0，a的虚部
 
 （2）字符串转义
 
-某些字符不能直接包含在字符串中。例如，双引号不能直接包含在双引号字符串中，这将导致它过早结束。![img](https://img.jbzj.com/file_images/article/202009/2020090314165647.jpg)
+某些字符不能直接包含在字符串中。例如，双引号不能直接包含在双引号字符串中，这将导致它过早结束。
+
+![img](https://img.jbzj.com/file_images/article/202009/2020090314165647.jpg)
 
 （3）字符串相关函数
 
@@ -129,7 +131,7 @@ x=s[:n]
 x=s[m:]
 print(s[1:5:2])#结果为bd
 #获得字符串长度
-lenght=len(s)
+length=len(s)
 #大小写转换
 s.lower()#将s中的所有字母变为小写
 s.upper()#将s中的所有字母变为大写
@@ -224,3 +226,110 @@ zd[key2]=value_test
 #添加信息
 zd[key4]=value4
 ```
+
+## 第二节 I/O操作
+
+### 1、键盘输入
+
+```python
+a=input('提示信息')
+```
+
+### 2、文件读取
+
+#### ①读取文件
+
+##### Ⅰ、txt文件
+
+使用with open命令，bug不容易出现，尽量少使用open
+
+```python
+with open('路径/文件名','权限') as f:#打开文件，路径/文件名为要打开的文件的路径和文件名。权限见下图
+    for i in f.readlines():
+        list.append(i)
+f.close()#关闭文件，使用with open时可以不写这一行
+```
+
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20210312112329568.png)
+
+```python
+#例1
+with open('C:\\a.txt','r') as f:
+    for i in f.readlines():
+        list.append(i)
+f.close()
+```
+
+> 读取方法：
+>
+> read()  ： 一次性读取整个文件内容。推荐使用read(size)方法，size越大运行时间越长
+>
+> readline()  ：每次读取一行内容。内存不够时使用，一般不太用
+>
+> readlines()  ：一次性读取整个文件内容，并按行返回到list，方便我们遍历
+
+##### Ⅱ、csv文件
+
+###### 按行读取
+
+```python
+import csv
+with open('file.csv','r'，encoding=“utf-8”) as csvfile:
+    reader = csv.reader(csvfile)
+    rows = [row for row in reader]
+```
+
+###### 读取某一列
+
+```python
+with open(filename,encoding="utf-8") as f:
+    reader = csv.reader(f)
+    header_row = next(reader)
+    datas = []
+    for row in reader:
+        print(row[2])
+```
+
+#### ②写入文件
+
+##### Ⅰ、txt文件
+
+```python
+with open('a.txt','a') as f:
+    f.write('内容')
+f.close()
+```
+
+##### Ⅱ、csv文件
+
+```python
+list=['a','b','c']
+with open('1.csv', 'a',newline='') as f:
+    csv_writer = csv.writer(f)
+    csv_writer.writerows([list])#将列表按行写入
+f.close()
+```
+
+### 3、输出
+
+#### 屏幕打印
+
+```python
+a=123
+print('打印内容')
+print(123)
+print(a)
+```
+
+##### 格式化
+
+```python
+a=123
+print('{}'.format(a))#输出结果为字符串类型的123
+```
+
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20210128110318187.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl81MTAxMjkzNw==,size_16,color_FFFFFF,t_70)
+
+#### 文件输出
+
+即写入文件，方法之前说过了。参照2-②。
