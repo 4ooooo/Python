@@ -509,12 +509,12 @@ Python for循环可以遍历任何序列的项目，如一个列表或者一个�
 #进行普通的循环取值
 for i in range(1,100):#从1至99循环，python的特性是()是左闭右开区间，即左端点可取到，右端点取不到
     print(i)
-
-    #遍历字符串
+    
+#遍历字符串
 for i in "python":
     print(i)#输出结果为单个的'p'、'y'、't'……
 
-    #遍历列表
+#遍历列表
 list1=[1,2,'a']
 for i in list1:
     print(i)#依次输出列表中的元素，数据类型和列表中对应的数据类型一致，结果为1、2、'a
@@ -525,7 +525,7 @@ for index in range(len(fruits)):
    print ('当前水果 : %s' % fruits[index])
 
 #循环使用 else 语句
-#在 python 中，for … else 表示这样的意思，for 中的语句和普通的没有区别，else 中的语句会在循环正常执行完（即 for 不是通过 break 跳出而中断的）的情况下执行，while … else 也是一样。
+#在python 中，for … else 表示这样的意思，for 中的语句和普通的没有区别，else 中的语句会在循环正常执行完（即 for 不是通过 break 跳出而中断的）的情况下执行
 for num in range(10,20):  # 迭代 10 到 20 之间的数字
    for i in range(2,num): # 根据因子迭代
       if num%i == 0:      # 确定第一个因子
@@ -541,17 +541,18 @@ for num in range(10,20):  # 迭代 10 到 20 之间的数字
 Python 编程中 while 语句用于循环执行程序，即在某条件下，循环执行某段程序，以处理需要重复处理的相同任务。
 
 ```python
+count = -3
 while count < 9:
-   print 'The count is:', count
+   print('The count is:', count)
    count = count + 1
 
 #while加else，和if相同
 count = 0
 while count < 5:
-   print count, " is  less than 5"
+   print(count, " is  less than 5")
    count = count + 1
 else:
-   print count, " is not less than 5"
+   print(count, " is not less than 5")
 
 #无限循环
 while True:
