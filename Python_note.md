@@ -185,7 +185,7 @@ list0=list(x)
 ```python
 #创建元组，括号内一定要以逗号结尾
 tu=(,)#空元组
-tu1=(1,2,3,)
+tu1=(1,2,3)
 #列表转换元组
 tuple(list0)
 ```
@@ -574,6 +574,139 @@ finally:
 <语句>    #退出try时总会执行
 ```
 
+## 练习题
+
+1、(内置函数) 用变量表示一个人的名字，分别以小写、大写、首字母大写并且除首字母外小写方式显示这个人名。提示:用string函数。
+
+```python
+a=input()
+print(a.lower())
+print(a.upper())
+print(a[0].upper()+a[1:])
+```
+
+2、(内置函数)用format方法输出如下样式`*****北京欢迎您*****`
+
+```python
+print("*****{}*****".format("北京欢迎您"))
+```
+
+3、(循环结构) 恺撒密码: 凯撒密码是古罗马凯撒大帝用来对军事情报进行加密的算法，它采用了替换方法对信息中的每一个英文字符循环替换为字母表序列该字符后面第三个字符，对应关系如下:
+
+原文：ABCDEFGHIJKLMNOPQRSTUVWXYZ
+
+密文：DEFGHIJKLMNOPQRSTUVWXYZABC
+
+原文字符p，其密文字符c满足如下条件:c=(p+3) mod 26解密方法反之，满足:p=(c-3) mod 26
+
+plain text明文
+
+cipher text：密文
+
+注:加密、解密功能分别实现。
+
+```python
+a=input("请输入加密或解密:\nA.加密\nB.解密\n")
+plain=''
+cipher=''
+if a == "A":
+    plain = input("请输入明文：")
+    for s in plain:
+        if s >'W':
+            cipher = cipher + chr(ord(s)+ 3 - 26)
+        else:
+            cipher = cipher + chr(ord(s) + 3)
+    print("密文是:{}".format(cipher))
+if a=='B':
+    cipher=input("请输入密文：")
+    for s in cipher:
+        if s<'D':
+            plain=plain+chr(ord(s)-3+26)
+        else:
+            plain=plain+chr(ord(s)-3)
+    print("明文是{}".format(plain))
+```
+
+4、(循环结构) 输入一个字符串，找出其中最大的字符，输出该字符及其在字符串中的位置。示例运行结果如下:
+请输入一串字符: 8wyekindfig
+最大字符为: y，其位置为: 2
+
+```python
+a=input()
+max = a[0]
+count=0
+num=0
+for s in a[1:]:
+    count = count + 1
+    if s > max:
+        max = s
+        num = count
+print(max)
+print(num)
+```
+
+5、(循环结构)天天向上续: 每周工作5天，休息2天，休息日水平下降1%，工作日要努力到什么程度一年后的水平才与每天努力1%所取得的效果一样呢？《天天向上的力量》
+
+```python
+def dayup(df):    #df表示的的意思为dayfactor 这里为了方便简写了
+       dayup=1
+       for i in range(365):
+              if i % 7 in [6,0]:
+                     dayup=dayup*(1-0.01)
+              else:
+                     dayup=dayup*(1+df)
+       return  dayup
+              
+#上面是定义函数的过程
+dayfactor=0.01
+while dayup(dayfactor) < 37.78:
+       dayfactor+=0.001
+print("工作日的期望参数是：{:.3f}".format(dayfactor))
+```
+
+6、(顺序结构及分支结构) 汇率兑换程序。以1美元=6人民币的汇率编写一个美元和人民币的双向兑换程序。
+
+```python
+Money=input("请输入带有标识的金钱值：")
+if Money[-1] in ['r','R']:
+    D=eval(Money[0:-1])/6
+    print("转换后的美元为{:.2f}".format(D))
+elif Money[-1] in ['d','D']:
+    R=eval(Money[0:-1])*6
+    print("转换后的人民币为{:.2f}".format(R))
+else:
+    print("输入格式错误")
+```
+
+7、(顺序结构及分支结构) 键盘输入三角形的三边长，求三角形周长及面积并输出。(需要考虑三边长是否能够成三角形)
+
+```python
+import math
+a=eval(input())
+b=eval(input())
+c=eval(input())
+
+if a+b>c and a+c>b and b+c>a:
+    print("周长是{}".format(a+b+c))
+    p=(a+b+c)/2
+    s=math.sqrt(p * (p - a) * (p - b) * (p - c))
+    print("面积是{}".format(s))
+else:
+    print("无法组成三角形")
+```
+
+8、(顺序结构及分支结构) 键盘输入一个三位数，求出其个位数字、十位数字和百位数字并输出。
+
+```python
+a=eval(input("请输入一个三位数："))
+ge=a%10
+shi=a//10%10
+bai=a//100
+print("个位数字为{}".format(ge))
+print("十位数字为{}".format(shi))
+print("百位数字为{}".format(bai))
+```
+
 ## 第七节 函数定义
 
 在python中，本讲义之前编写的代码均未定义函数，因此除循环、条件判断等结构体外，均以从上至下顺序执行，若代码中有一部分代码实现某种特定功能，而在整体代码中需要多次实现这个功能，即可通过定义函数的方式，可以理解为将这部分代码封装为一个函数接口，当主函数（即从上至下顺序执行的代码中）想要实现这个功能时，只需要调用这个函数即可，不需要再重复写一遍实现代码。
@@ -587,6 +720,7 @@ def sum(x,y):
 a=1
 b=2
 print(sum(a,b))
+#print("123")
 ```
 
 在这段代码中，通过def这个关键字定义了一个函数sum，用来实现两数求和，这两个数在函数中的变量名为x和y，即在函数体中可使用这两个名来使用变量。在执行顺序上，代码会自动跳过所有的def部分。在本代码中即从`a=1`开始执行，执行到第三行print()函数中，发现调用了sum函数，程序会将a，b两变量的值传入sum函数中，调用sum函数部分代码（代码行数第2行到第4行）。最后通过return将变量s返回给主体代码，即给print打印出来。
@@ -598,7 +732,6 @@ print(sum(a,b))
 ```python
 def 函数名():
 	代码
-
 ```
 
 #### 无参数、有返回值
@@ -607,7 +740,6 @@ def 函数名():
 def 函数名():
 	语句
 	return 需要返回的数值
-
 ```
 
 #### 有参数、无返回值
@@ -615,7 +747,6 @@ def 函数名():
 ```python
 def 函数名(形参列表):
 	语句
-
 ```
 
 #### 有参数、有返回值
@@ -624,7 +755,6 @@ def 函数名(形参列表):
 def 函数名(形参列表):
 	语句
 	return 需要返回的数值
-
 ```
 
 #### 函数使用
@@ -637,7 +767,6 @@ def printinfo():
     print('--'*30)
 
 #函数的调用
-printinfo()
 printinfo()
 
 #带参数的函数
@@ -665,7 +794,7 @@ print('商：%d,余数：%d'%(sh,yu))
 
 > 问题1：代码从第几行开始执行
 >
-> 问题2：第22行，add2Num(11,22)调用了add2Num函数，那11和22在这个函数里的变量名是什么？
+> 问题2：第21行，add2Num(11,22)调用了add2Num函数，那11和22在这个函数里的变量名是什么？
 >
 > 问题3：思考，函数add2Num中的a、b和函数divid中的a、b有什么关系？
 
@@ -683,9 +812,9 @@ https://www.runoob.com/python/python-object.html
 
 ①同时按下win+R，输入cmd，打开命令行。
 
-②输入pip install requests。
+②输入`pip install requests`。
 
-③输入python，启动python，再输入import requests。若不报错则安装成功。
+③输入python，启动python，再输入`import requests`。若不报错则安装成功。
 
 #### 2、Requests库的7个主要方法
 
@@ -764,9 +893,10 @@ bs4库的理解
 
 bs4库是解析、遍历、维护“标签树”的功能书。
 
+```html
 <p class="title">..</p>
-
 <p>..</p>是以p为名称的标签类型。
+```
 
 class=“title”是该标签的属性域，是一个键值对。
 
@@ -1354,4 +1484,260 @@ XPath Selector
 
 使用格式：`<html>.css('a::attr(href)').extract()`
 
-其中，a为标签名称，href是标签属性。
+## 第十节 数据处理
+
+### 一、numpy库（https://www.runoob.com/numpy/）
+
+#### 安装
+
+```bash
+pip3 install numpy scipy matplotlib -i https://pypi.tuna.tsinghua.edu.cn/simple
+```
+
+使用时需要先import
+
+```python
+import numpy as np 
+```
+
+#### 数组属性
+
+| 属性             | 说明                                                         |
+| ---------------- | ------------------------------------------------------------ |
+| ndarray.ndim     | 秩，即轴的数量或维度的数量                                   |
+| ndarray.shape    | 数组的维度，对于矩阵，n 行 m 列                              |
+| ndarray.size     | 数组元素的总个数，相当于 .shape 中 n*m 的值                  |
+| ndarray.dtype    | ndarray 对象的元素类型                                       |
+| ndarray.itemsize | ndarray 对象中每个元素的大小，以字节为单位                   |
+| ndarray.flags    | ndarray 对象的内存信息                                       |
+| ndarray.real     | ndarray元素的实部                                            |
+| ndarray.imag     | ndarray 元素的虚部                                           |
+| ndarray.data     | 包含实际数组元素的缓冲区，由于一般通过数组的索引获取元素，所以通常不需要使用这个属性。 |
+
+#### 创建数组
+
+`numpy.array(object, dtype = None, copy = True, order = None, subok = False, ndmin = 0)`
+
+| 名称   | 描述                                                      |
+| ------ | --------------------------------------------------------- |
+| object | 数组或嵌套的数列                                          |
+| dtype  | 数组元素的数据类型，可选                                  |
+| copy   | 对象是否需要复制，可选                                    |
+| order  | 创建数组的样式，C为行方向，F为列方向，A为任意方向（默认） |
+| subok  | 默认返回一个与基类类型一致的数组                          |
+| ndmin  | 指定生成数组的最小维度                                    |
+
+```python
+import numpy as np 
+a = np.array([[1,  2],  [3,  4]])  
+print (a)
+
+
+#输出
+#[[1  2] 
+# [3  4]]
+```
+
+```python
+# 最小维度  
+import numpy as np 
+a = np.array([1, 2, 3, 4, 5], ndmin =  2)  
+print (a)
+#输出[[1 2 3 4 5]]
+```
+
+```python
+# dtype 参数  
+import numpy as np 
+a = np.array([1,  2,  3], dtype = complex)  
+print (a)
+
+#输出[1.+0.j 2.+0.j 3.+0.j]
+```
+
+`numpy.empty(shape, dtype = float, order = 'C')`
+
+numpy.empty 方法用来创建一个指定形状（shape）、数据类型（dtype）且未初始化的数组.
+
+| 参数  | 描述                                                         |
+| ----- | ------------------------------------------------------------ |
+| shape | 数组形状                                                     |
+| dtype | 数据类型，可选                                               |
+| order | 有"C"和"F"两个选项,分别代表，行优先和列优先，在计算机内存中的存储元素的顺序。 |
+
+```python
+#创建空数组
+import numpy as np 
+x = np.empty([3,2], dtype = int) 
+print (x)
+
+#输出结果
+#[[ 6917529027641081856  5764616291768666155]
+# [ 6917529027641081859 -5764598754299804209]
+# [          4497473538      844429428932120]]
+```
+
+`numpy.zeros(shape, dtype = float, order = 'C')`
+
+| 参数  | 描述                                                |
+| ----- | --------------------------------------------------- |
+| shape | 数组形状                                            |
+| dtype | 数据类型，可选                                      |
+| order | 'C' 用于 C 的行数组，或者 'F' 用于 FORTRAN 的列数组 |
+
+```python
+import numpy as np
+ 
+# 默认为浮点数
+x = np.zeros(5) 
+print(x)
+ 
+# 设置类型为整数
+y = np.zeros((5,), dtype = int) 
+print(y)
+ 
+# 自定义类型
+z = np.zeros((2,2), dtype = [('x', 'i4'), ('y', 'i4')])  
+print(z)
+
+#输出结果
+#[0. 0. 0. 0. 0.]
+#[0 0 0 0 0]
+#[[(0, 0) (0, 0)]
+# [(0, 0) (0, 0)]]
+```
+
+`numpy.ones(shape, dtype = None, order = 'C')`
+
+创建指定形状的数组，数组元素以 1 来填充
+
+| 参数  | 描述                                                |
+| ----- | --------------------------------------------------- |
+| shape | 数组形状                                            |
+| dtype | 数据类型，可选                                      |
+| order | 'C' 用于 C 的行数组，或者 'F' 用于 FORTRAN 的列数组 |
+
+```python
+import numpy as np
+ 
+# 默认为浮点数
+x = np.ones(5) 
+print(x)
+ 
+# 自定义类型
+x = np.ones([2,2], dtype = int)
+print(x)
+
+#输出结果
+#[1. 1. 1. 1. 1.]
+#[[1 1]
+# [1 1]]
+```
+
+`numpy.zeros_like(a, dtype=None, order='K', subok=True, shape=None)`
+
+numpy.zeros_like 用于创建一个与给定数组具有相同形状的数组，数组元素以 0 来填充。
+
+| 参数  | 描述                                                         |
+| ----- | ------------------------------------------------------------ |
+| a     | 给定要创建相同形状的数组                                     |
+| dtype | 创建的数组的数据类型                                         |
+| order | 数组在内存中的存储顺序，可选值为 'C'（按行优先）或 'F'（按列优先），默认为 'K'（保留输入数组的存储顺序） |
+| subok | 是否允许返回子类，如果为 True，则返回一个子类对象，否则返回一个与 a 数组具有相同数据类型和存储顺序的数组 |
+| shape | 创建的数组的形状，如果不指定，则默认为 a 数组的形状。        |
+
+```python
+import numpy as np
+ 
+# 创建一个 3x3 的二维数组
+arr = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+ 
+# 创建一个与 arr 形状相同的，所有元素都为 0 的数组
+zeros_arr = np.zeros_like(arr)
+print(zeros_arr)
+```
+
+`numpy.ones_like(a, dtype=None, order='K', subok=True, shape=None)`
+
+同numpy.zeros_like，只不过是用1填充。
+
+`numpy.arange(start, stop, step, dtype)`
+
+numpy 包中的使用 arange 函数创建数值范围并返回 ndarray 对象，根据 start 与 stop 指定的范围以及 step 设定的步长，生成一个 ndarray。
+
+| 参数  | 描述                                                         |
+| ----- | ------------------------------------------------------------ |
+| start | 起始值，默认为0                                              |
+| stop  | 终止值（不包含）                                             |
+| step  | 步长，默认为1                                                |
+| dtype | 返回`ndarray`的数据类型，如果没有提供，则会使用输入数据的类型。 |
+
+```python
+#生成 0 到 4 长度为 5 的数组:
+import numpy as np
+ 
+x = np.arange(5)  
+print (x)
+
+#输出结果：[0  1  2  3  4]
+```
+
+```python
+#设置了起始值、终止值及步长：
+import numpy as np
+x = np.arange(10,20,2)  
+print (x)
+
+#输出结果：[10  12  14  16  18]
+```
+
+`np.linspace(start, stop, num=50, endpoint=True, retstep=False, dtype=None)`
+
+用于创建一个一维数组，数组是一个等差数列构成的
+
+| 参数       | 描述                                                         |
+| ---------- | ------------------------------------------------------------ |
+| `start`    | 序列的起始值                                                 |
+| `stop`     | 序列的终止值，如果`endpoint`为`true`，该值包含于数列中       |
+| `num`      | 要生成的等步长的样本数量，默认为`50`                         |
+| `endpoint` | 该值为 `true` 时，数列中包含`stop`值，反之不包含，默认是True。 |
+| `retstep`  | 如果为 True 时，生成的数组中会显示间距，反之不显示。         |
+| `dtype`    | `ndarray` 的数据类型                                         |
+
+`np.logspace(start, stop, num=50, endpoint=True, base=10.0, dtype=None)`
+
+创建一个于等比数列
+
+| 参数       | 描述                                                         |
+| ---------- | ------------------------------------------------------------ |
+| `start`    | 序列的起始值为：base ** start                                |
+| `stop`     | 序列的终止值为：base ** stop。如果`endpoint`为`true`，该值包含于数列中 |
+| `num`      | 要生成的等步长的样本数量，默认为`50`                         |
+| `endpoint` | 该值为 `true` 时，数列中中包含`stop`值，反之不包含，默认是True。 |
+| `base`     | 对数 log 的底数。                                            |
+| `dtype`    | `ndarray` 的数据类型                                         |
+
+#### 切片
+
+slice
+
+```python
+import numpy as np
+ 
+a = np.arange(10)
+s = slice(2,7,2)   # 从索引 2 开始到索引 7 停止，间隔为2
+print (a[s])
+
+#输出[2  4  6]
+```
+
+直接切
+
+```python
+import numpy as np
+ 
+a = np.arange(10)  
+b = a[2:7:2]   # 从索引 2 开始到索引 7 停止，间隔为 2
+print(b)
+#输出：[2  4  6]
+```
