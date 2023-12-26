@@ -49,7 +49,6 @@ type(a)
 （3）进制转换
 
 ```python
-#十进制转换二进制
 bin(3)#结果为0b11
 #十进制转换八进制
 oct(12)#结果为0o14
@@ -108,7 +107,7 @@ print(a.imag)#结果为4.0，a的虚部
 （1）使用文本时，就要用字符串类型。用引号包裹起来的可以是字母、数字、汉字。单引号''或双引号""均可。
 
 ```python
-"学习"
+"1"
 '学习'
 ```
 
@@ -302,12 +301,55 @@ f.close()
 
 ##### Ⅱ、csv文件
 
+按行写入
+
 ```python
 list=['a','b','c']
 with open('1.csv', 'a',newline='') as f:
     csv_writer = csv.writer(f)
     csv_writer.writerows([list])#将列表按行写入
 f.close()
+```
+
+按列写入（数据为双重列表）
+
+```python
+# 示例列表数据
+data = [
+    [1, 'Alice', 25],
+    [2, 'Bob', 30],
+    [3, 'Charlie', 22]
+]#这里需要是列表
+
+# 指定CSV文件路径
+csv_file_path = 'output.csv'
+
+# 打开文件，使用with语句确保在离开with块时文件被正确关闭
+with open(csv_file_path, 'w') as csv_file:
+    # 逐列写入数据
+    for col in zip(*data):
+        # 将每列数据连接为字符串，以逗号分隔，然后写入文件
+        csv_file.write(','.join(map(str, col)) + '\n')
+
+print(f'Data has been written to {csv_file_path}')
+```
+
+按列写入（数据为单重列表）
+
+```python
+# 示例列表数据
+data = [1, 2, 3, 4]
+
+# 指定CSV文件路径
+csv_file_path = 'output.csv'
+
+# 打开文件，使用with语句确保在离开with块时文件被正确关闭
+with open(csv_file_path, 'w') as csv_file:
+    # 逐列写入数据
+    for item in data:
+        csv_file.write(str(item) + '\n')
+
+print(f'Data has been written to {csv_file_path}')
 ```
 
 ### 3、输出
@@ -574,7 +616,7 @@ finally:
 <语句>    #退出try时总会执行
 ```
 
-## 练习题
+## *练习题
 
 1、(内置函数) 用变量表示一个人的名字，分别以小写、大写、首字母大写并且除首字母外小写方式显示这个人名。提示:用string函数。
 
@@ -798,6 +840,166 @@ print('商：%d,余数：%d'%(sh,yu))
 >
 > 问题3：思考，函数add2Num中的a、b和函数divid中的a、b有什么关系？
 
+## *函数练习
+
+1. 输出100~200间的全部素数(要求定义判断一个数是否是素数的函数)。
+
+   ```python
+   def isPrime(x):
+       flag = 0
+       for i in range(2,x):
+           if x % i == 0:
+               flag = 1
+       if flag == 1:
+           return False
+       else:
+           return True
+   
+   for i in range(100,201):
+       if isPrime(i):
+           print(i)
+   ```
+
+   ```python
+   def isPrime(a):
+       #素数是除了1和它本身没有其他的因子
+       #判断方法：从2到它自己-1这么多数中，只要有一个余数为0，则不是素数。
+       for i in range(2,a):
+           if a % i == 0:
+               return
+       print(a)#只要能走到这里，没有被上面那个return，那就说明是素数
+   
+   for i in range(100,201):
+       isPrime(i)
+   ```
+
+   ```python
+   def isPrime(a):
+       #素数是除了1和它本身没有其他的因子
+       #判断方法：从2到它自己-1这么多数中，只要有一个余数为0，则不是素数。
+       for i in range(2,a):
+           if a % i == 0:
+               return False
+       return True#只要能走到这里，没有被上面那个return，那就说明是素数
+   
+   for i in range(100,201):
+       if isPrime(i):
+           print(i)
+   ```
+
+2. 从键盘输入两个数a，b,编写函数返回较大的值。
+
+   ```python
+   def max(a,b):
+       if a>=b:
+           print(a)
+       else:
+           print(b)
+   
+   a=eval(input())
+   b=eval(input())
+   max(a,b)
+   ```
+
+   ```python
+   def max(a,b):
+       if a>=b:
+           return a
+       else:
+           return b
+   
+   a=eval(input())
+   b=eval(input())
+   print(max(a,b))
+   ```
+
+3. 随机生成两个坐标,如a(x1,y1)和b(x2,y2),编写函数计算两个坐标的欧氏距离并返回.
+
+   ```python
+   import random
+   import math
+   def distance(x1,y1,x2,y2):
+       print(math.sqrt((x1-x2)**2+(y1-y2)**2))
+   
+   x1=random.random()
+   x2=random.random()
+   y1=random.random()
+   y2=random.random()
+   distance(x1,y1,x2,y2)
+   ```
+
+4. 输入三角形三边长,用函数编程计算三角形面积、周长.公式见海伦公式。(要求分别定义输入函数、计算面积函数、计算周长函数)
+
+   ```python
+   import math
+   
+   def square(a,b,c):
+       p=(a+b+c)/2
+       s=math.sqrt(p * (p - a) * (p - b) * (p - c))
+       return s
+   
+   def zhouchang(a,b,c):
+       return a+b+c
+   
+   a=eval(input())
+   b=eval(input())
+   c=eval(input())
+   print("面积为{}".format(square(a,b,c)))
+   print("周长为{}".format(zhouchang(a,b,c)))
+   ```
+
+5. 给定的任意整数N可能存在两个素数它们的和等于N。请编写程序.输入整数N,输出满足条件的所有素数。(要求定义输入函数、定义判断一个数是否是素数的函数)。
+
+   ```python
+   def isPrime(a):
+       #素数是除了1和它本身没有其他的因子
+       #判断方法：从2到它自己-1这么多数中，只要有一个余数为0，则不是素数。
+       if a == 2:
+           return True
+       for i in range(2,a):
+           if a % i == 0:
+               return False
+       return True#只要能走到这里，没有被上面那个return，那就说明是素数
+   
+   n = eval(input())
+   for i in range(2,int(n/2)+1):
+       if isPrime(i) and isPrime(n-i):
+           print(i,n-i)
+   ```
+
+6. 计算
+   $$
+   e^x=1+x+\frac{x^2}{2!}+\frac{x^3}{3!}+...+\frac{x^i}{i!}+...
+   $$
+   要求精确度达到10^(-6)（要求定义阶乘函数、指数函数）
+
+   ```python
+   def fac(i):
+       if i == 1 or i == 0:
+           return 1
+       else:
+           return i*fac(i-1)
+   
+   def pw(a,b):
+       for i in range(abs(b)):
+           a=a*a
+       if b>0:
+           return a
+       else:
+           return 1/a
+   
+   i=1
+   s=1
+   x=eval(input())
+   while x/fac(i) >= pw(10,-6):
+       s = s + x/fac(i)
+       i = i + 1
+       x = x * x
+       
+   s = s + x/fac(i)
+   print(s)
+   ```
+
 ## 第八节 面向对象编程
 
 https://www.runoob.com/python/python-object.html
@@ -812,7 +1014,7 @@ https://www.runoob.com/python/python-object.html
 
 ①同时按下win+R，输入cmd，打开命令行。
 
-②输入`pip install requests`。
+②输入`pip install requests`
 
 ③输入python，启动python，再输入`import requests`。若不报错则安装成功。
 
@@ -834,7 +1036,7 @@ requests.delete()：向html页面提交删除请求，对应于http的DELETE。
 
 #### 3、Response对象的属性
 
-r.status_code：http请求的返回状态，200表示连接成功，404表示失败，。
+r.status_code：http请求的返回状态，200表示连接成功，404表示失败。
 
 r.text：http响应内容的字符串形式，即url对应的页面内容。
 
@@ -911,11 +1113,11 @@ import bs4
 
 bs4的HTML解析器：BeautifulSoup(mk,'html.parser') 需安装bs4库。
 
-lxml的HTML解析器：BeautifulSoup(mk,'lxml')需pip install lxml。
+lxml的HTML解析器：BeautifulSoup(mk,'lxml')需`pip install lxml`。
 
-lxml的XML解析器：BeautifulSoup(mk,'xml')需pip install lxml。
+lxml的XML解析器：BeautifulSoup(mk,'xml')需`pip install lxml`。
 
-html5lib的解析器：BeautifulSoup(mk,'html5lib')需pip install html5lib。
+html5lib的解析器：BeautifulSoup(mk,'html5lib')需`pip install html5lib`。
 
 BeautifulSoup类的基本元素
 
@@ -935,9 +1137,9 @@ Comment：标签内字符串的注释部分，一种特殊的Comment类型。
 
 .contents：子节点的列表，将<tag>所有儿子节点存入列表。
 
-.children：子节点的迭代类型，与.content类似，用于循环遍历儿子节点。
+.children：子节点的**迭代类型**，与.content类似，用于循环遍历儿子节点。
 
-.descendants：子孙节点的迭代类型，包含所有子孙节点，用于循环遍历。
+.descendants：子孙节点的**迭代类型**，包含所有子孙节点，用于循环遍历。
 
 标签树的上行遍历
 
@@ -951,27 +1153,25 @@ Comment：标签内字符串的注释部分，一种特殊的Comment类型。
 
 .previous_sibling：返回按照html文本顺序的上一个平行节点标签。
 
-.next_siblings：迭代类型，返回按照html文本顺序的后续所有平行节点标签。
+.next_siblings：**迭代类型**，返回按照html文本顺序的后续所有平行节点标签。
 
-.previous_siblings：迭代类型，返回按照html文本顺序的前序所有平行节点标签。
+.previous_siblings：**迭代类型**，返回按照html文本顺序的前序所有平行节点标签。
 
 遍历后续节点
 
-```
+```python
 for sibling in soup.a.next_siblings:
-print(sibling)
+	print(sibling)
 ```
 
 遍历前序节点
 
-```
+```python
 for sibling in soup.a.previous_siblings:
-print(sibling)
+	print(sibling)
 ```
 
-
-
-\#迭代类型只能用在循环中！！！
+**\#迭代类型只能用在循环中！！！**
 
 基于bs4库的HTML格式化和编码
 
@@ -1017,7 +1217,11 @@ soup(...)等价于soup.find_all(...)
 
 ### 三、正则表达式
 
-#### 1、正则表达式的概念
+```
+([\w]+(\.[\w]+)*@[\w]+(\.[\w])+)
+```
+
+### 1、正则表达式的概念
 
 用来表达字符串的简洁方式。
 
@@ -1029,35 +1233,35 @@ soup(...)等价于soup.find_all(...)
 
 正则表达式长常用操作符
 
-.：表示任何单个字符。
+`.`：表示任何单个字符。
 
-[]：字符集，对单个字符给出取值范围。[abc]表示a,b,c，[a-z]表示a到z的单个字符。
+`[]`：字符集，对单个字符给出取值范围。[abc]表示a,b,c，[a-z]表示a到z的单个字符。
 
-[^ ]：非字符集，对单个字符给出排除范围。`[^abc]`表示非a或非b或非c的单个字符。
+`[^ ]`：非字符集，对单个字符给出排除范围。`[^abc]`表示非a或非b或非c的单个字符。
 
-*：前一个字符出现0次或无限次扩展。abc`*`表示ab，abc，abcc，abccc等。
+`*`：前一个字符出现0次或无限次扩展。`abc*`表示ab，abc，abcc，abccc等。
 
-+：前一个字符1次或无限次扩展。abc+表示abc，abcc，abcc等
+`+`：前一个字符1次或无限次扩展。abc+表示abc，abcc，abcc等
 
-?：前一个字符0次或1次扩展。abc?表示ab、abc。
+`?`：前一个字符0次或1次扩展。abc?表示ab、abc。
 
-|：左右表达式任意一个。abc|def表示abc、def。
+`|`：左右表达式任意一个。abc|def表示abc、def。
 
 {m}：表示扩展前一个字符m次。ab{2}c表示abbc。
 
 {m,n}：扩展前一个字符m至n次（含n），ab{1,2}c表示abc、abbc。
 
-^：匹配字符串开头。^abc表示abc且在一个字符串的开头。
+`^`：匹配字符串开头。^abc表示abc且在一个字符串的开头。
 
-$：匹配字符串结尾。abc$表示abc且在一个字符串的结尾。
+`$`：匹配字符串结尾。abc$表示abc且在一个字符串的结尾。
 
-()：分组标记，内部只能使用|操作符。(abc)表示abc，(abc|def)表示abc、def。
+`()`：分组标记，内部只能使用|操作符。(abc)表示abc，(abc|def)表示abc、def。
 
-\d：数字，等价于[0-9]。
+`\d`：数字，等价于[0-9]。
 
-\w：单词字符，等价于[A-za-z0-9_]。
+`\w`：单词字符，等价于[A-Za-z0-9_]。
 
-\#匹配中文字符串：[\u4e00-\u9fa5]
+`\#`匹配中文字符串：[\u4e00-\u9fa5]
 
 匹配IP地址的正则表达式
 
@@ -1071,7 +1275,7 @@ Re库介绍
 
 Re库是python标准库，主要用于字符串的匹配。
 
-调用方式：import re
+调用方式：`import re`
 
 正则表达式的表示类型
 
@@ -1194,6 +1398,8 @@ Re库默认采用贪婪匹配，即输出匹配最长的子串。
 {m,n}?：扩展前一个字符m至n次(含n)，最小匹配。
 
 ### 四、Scrapy框架
+
+https://www.icourse163.org/course/BIT-1001870001?from=searchPage&outVendor=zw_mooc_pcssjg_
 
 #### 1、Scrapy库安装
 
@@ -1741,3 +1947,4 @@ b = a[2:7:2]   # 从索引 2 开始到索引 7 停止，间隔为 2
 print(b)
 #输出：[2  4  6]
 ```
+
